@@ -4,7 +4,7 @@
 #
 Name     : libiptcdata
 Version  : 1.0.5
-Release  : 1
+Release  : 2
 URL      : https://github.com/ianw/libiptcdata/releases/download/release_1_0_5/libiptcdata-1.0.5.tar.gz
 Source0  : https://github.com/ianw/libiptcdata/releases/download/release_1_0_5/libiptcdata-1.0.5.tar.gz
 Summary  : IPTC tag library
@@ -21,6 +21,7 @@ BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(glib-2.0)
 
 %description
 libiptcdata is a library for parsing, editing, and saving IPTC data
@@ -85,20 +86,21 @@ locales components for the libiptcdata package.
 
 %prep
 %setup -q -n libiptcdata-1.0.5
+cd %{_builddir}/libiptcdata-1.0.5
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565204280
+export SOURCE_DATE_EPOCH=1604359146
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
@@ -108,13 +110,13 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1565204280
+export SOURCE_DATE_EPOCH=1604359146
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libiptcdata
-cp COPYING %{buildroot}/usr/share/package-licenses/libiptcdata/COPYING
+cp %{_builddir}/libiptcdata-1.0.5/COPYING %{buildroot}/usr/share/package-licenses/libiptcdata/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
 %make_install
 %find_lang iptc
 %find_lang libiptcdata
@@ -174,7 +176,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/libiptcdata/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libiptcdata/COPYING
+/usr/share/package-licenses/libiptcdata/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
 
 %files locales -f iptc.lang -f libiptcdata.lang
 %defattr(-,root,root,-)
